@@ -1,3 +1,5 @@
+// Реализовать собственную функцию sleep
+
 package main
 
 import (
@@ -5,6 +7,7 @@ import (
 	"time"
 )
 
+// for duration >= milliseconds
 func mySleep(d time.Duration) {
 	start := time.Now().UnixMicro()
 
