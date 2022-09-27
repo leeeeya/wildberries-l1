@@ -7,8 +7,18 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
+// todo dodelat'
+func checkSorted[T constraints.Ordered](ar []T) bool {
+	for i := 0; i < len(ar); i++ {
+		if ar[i] > ar[i+1] {
+			return false
+		}
+	}
+	return true
+}
+
 func Quicksort[T constraints.Ordered](ar []T) {
-	if len(ar) <= 1 {
+	if len(ar) <= 1 || checkSorted(ar) == true {
 		return
 	}
 
