@@ -10,14 +10,12 @@ func setValue(wg *sync.WaitGroup, m map[int]string, ch <-chan int, mx *sync.Mute
 	mx.Lock()
 	v := <-ch
 	m[v] = fmt.Sprintf("value%d", v)
-	fmt.Println(v, m[v])
 	mx.Unlock()
 
 }
 
 func sendValue(ch chan int, wg *sync.WaitGroup) {
 	defer wg.Done()
-	defer close(ch)
 
 	for i := 0; i < 10; i++ {
 		ch <- i
@@ -29,6 +27,7 @@ func main() {
 	wg := &sync.WaitGroup{}
 	mx := &sync.Mutex{}
 	ch := make(chan int)
+	defer close(ch)
 
 	wg.Add(11)
 	go sendValue(ch, wg)
