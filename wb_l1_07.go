@@ -5,19 +5,20 @@ import (
 	"sync"
 )
 
-func setValue(m map[int]string, ch <-chan int, wg *sync.WaitGroup) {
-	mx := sync.Mutex{}
-
+func setValue(wg *sync.WaitGroup, m map[int]string, ch <-chan int, mx *sync.Mutex) {
 	defer wg.Done()
 	mx.Lock()
 	v := <-ch
 	m[v] = fmt.Sprintf("value%d", v)
+	fmt.Println(v, m[v])
 	mx.Unlock()
 
 }
 
 func sendValue(ch chan int, wg *sync.WaitGroup) {
 	defer wg.Done()
+	defer close(ch)
+
 	for i := 0; i < 10; i++ {
 		ch <- i
 	}
@@ -26,20 +27,13 @@ func sendValue(ch chan int, wg *sync.WaitGroup) {
 func main() {
 	m := make(map[int]string)
 	wg := &sync.WaitGroup{}
-	ch := make(chan int, 5)
+	mx := &sync.Mutex{}
+	ch := make(chan int)
 
-	wg.Add(10)
+	wg.Add(11)
 	go sendValue(ch, wg)
 	for i := 0; i < 10; i++ {
-		go func(ch <-chan int, wg *sync.WaitGroup) {
-			mx := sync.Mutex{}
-
-			defer wg.Done()
-			mx.Lock()
-			v := <-ch
-			m[v] = fmt.Sprintf("value%d", v)
-			mx.Unlock()
-		}(ch, wg)
+		go setValue(wg, m, ch, mx)
 	}
 	wg.Wait()
 	fmt.Println(m)
