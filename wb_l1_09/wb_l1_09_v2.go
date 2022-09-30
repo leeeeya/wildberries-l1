@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"sync"
-	"time"
 )
 
 func main() {
@@ -19,21 +18,28 @@ func main() {
 	wg.Add(3)
 	go func() {
 		defer wg.Done()
-		//defer close(in)
+
 		for _, v := range ar {
 			in <- v
 		}
+		close(in)
 	}()
+
 	go func() {
 		defer wg.Done()
-		get := <-in
-		fmt.Println(get)
-		out <- get * get
+		defer close(out)
+
+		for get := range in {
+			out <- get * get
+		}
+
 	}()
+
 	go func() {
 		defer wg.Done()
-		fmt.Println(<-out)
+		for pr := range out {
+			fmt.Println(pr)
+		}
 	}()
 	wg.Wait()
-	time.Sleep(5 * time.Second)
 }

@@ -5,6 +5,8 @@ import (
 	"sync"
 )
 
+//TODO add sync.map
+
 func setValue(wg *sync.WaitGroup, m map[int]string, ch <-chan int, mx *sync.Mutex) {
 	defer wg.Done()
 	mx.Lock()
