@@ -7,7 +7,7 @@ import (
 	"reflect"
 )
 
-// except chan
+// определение типа переменной через конструкцию switch (не работает для каналов)
 func switchMethod(vars []interface{}) {
 	for _, v := range vars {
 
@@ -24,6 +24,7 @@ func switchMethod(vars []interface{}) {
 	}
 }
 
+// определение типа переменной через Sprintf()
 func sprintMethod(vars []interface{}) {
 	for _, v := range vars {
 		t := fmt.Sprintf("%T", v)
@@ -31,6 +32,7 @@ func sprintMethod(vars []interface{}) {
 	}
 }
 
+// определение типа данных с помощью reflect.TypeOf()
 func reflectionMethod(vars []interface{}) {
 	for _, v := range vars {
 		t := reflect.TypeOf(v)

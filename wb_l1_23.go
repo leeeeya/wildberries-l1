@@ -21,7 +21,7 @@ func quickMethod[T any](sl []T, i int) ([]T, T) {
 	return sl, rem
 }
 
-//медленные способ
+//медленный способ
 func slowMethod[T any](sl []T, i int) ([]T, T) {
 	rem := sl[i]
 	copy(sl[i:], sl[i+1:])

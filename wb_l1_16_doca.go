@@ -7,7 +7,6 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
-// todo dodelat' docu
 func checkSorted[T constraints.Ordered](ar []T) bool {
 	for i := 0; i < len(ar)-1; i++ {
 		if ar[i] > ar[i+1] {
