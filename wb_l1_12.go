@@ -1,3 +1,5 @@
+// Cоздать собственное множество для последовательности строк (cat, cat, dog, cat, tree)
+
 package main
 
 import "fmt"
