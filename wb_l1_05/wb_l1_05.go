@@ -60,7 +60,7 @@ func main() {
 	}
 	fmt.Println()
 
-	// определение контекста, который заставить main-рутину завершиться по заданному таймауту
+	// определение контекста, который заставит main-рутину завершиться по заданному таймауту
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(sec))
 	// cancel() отменит контекст после того, как он завершит свою работу
 	defer cancel()
